@@ -6,7 +6,7 @@ Katabasis is licensed under the GNU General Public License, version 2.0.
 
 #### Current State
 
-Katabasis is in private development. It is October 29, 2016.
+Katabasis is in private development. It is November 3, 2016.
 
 #### Desired End State
 
