@@ -10,4 +10,4 @@ Katabasis is in private development. It is October 29, 2016.
 
 #### Desired End State
 
-Katabasis is in public development. It is October 31, 2016.
+Katabasis is in public development. It is November 14, 2016.
