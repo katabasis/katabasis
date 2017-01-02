@@ -4,6 +4,6 @@ Katabasis is licensed under the GNU General Public License, version 2.0.
 
 ---
 
-### Status
+### Getting Started
 
-Katabasis, version 0.1.0, will be released on January 1, 2017.
+Documentation coming soon.
