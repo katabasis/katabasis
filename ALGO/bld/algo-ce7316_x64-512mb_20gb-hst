@@ -46,17 +46,15 @@ ssh root@<vps_ip_addr>
 
 yes
 
-sh -c 'echo "set const" >> .nanorc'
+adduser <os_username>
 
-sh -c 'echo "set tabsize 8" >> .nanorc'
+passwd <os_username>
 
-sh -c 'echo "set tabstospaces" >> .nanorc'
+<os_password>
 
-adduser --disabled-password --gecos "" <os_username>
+<os_password>
 
-usermod -aG sudo <os_username>
-
-cp .nanorc /home/<os_username>/
+gpasswd -a <os_username> wheel
 
 mkdir /etc/ssh/<os_username>
 
@@ -86,11 +84,13 @@ chmod 755 /etc/ssh/<os_username>
 
 chmod 644 /etc/ssh/<os_username>/authorized_keys
 
-sed -i -e '/^#AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile \/etc\/ssh\/<os_username>\/authorized_keys/' /etc/ssh/sshd_config
+sed -i -e '/^AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile \/etc\/ssh\/<os_username>\/authorized_keys/' /etc/ssh/sshd_config
 
-sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+sed -i -e '/^#PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
 
 sed -i -e '/^PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+sed -i -e '/^#Protocol/s/^.*$/Protocol 2/' /etc/ssh/sshd_config
 
 sh -c 'echo "" >> /etc/ssh/sshd_config'
 
@@ -102,17 +102,19 @@ sh -c 'echo "AllowUsers <os_username>" >> /etc/ssh/sshd_config'
 
 systemctl reload sshd
 
-apt-get -y install firewalld
-
 systemctl start firewalld
+
+firewall-cmd --zone=public --permanent --add-service=ssh
 
 firewall-cmd --reload
 
 systemctl enable firewalld
 
-sed -i -e '/^Port/s/^.*$/Port <defined_ssh_port>/' /etc/ssh/sshd_config
+sed -i -e '/^#Port/s/^.*$/Port <defined_ssh_port>/' /etc/ssh/sshd_config
 
 firewall-cmd --add-port <defined_ssh_port>/tcp --permanent
+
+firewall-cmd --zone=public --remove-port=22/tcp --permanent
 
 firewall-cmd --reload
 
@@ -120,7 +122,7 @@ systemctl reload sshd
 
 timedatectl set-timezone America/New_York
 
-apt-get -y install ntp
+yum -y install ntp
 
 fallocate -l 3G /swapfile
 
@@ -138,7 +140,9 @@ sysctl vm.vfs_cache_pressure=30
 
 sh -c 'echo "vm.vfs_cache_pressure=30" >> /etc/sysctl.conf'
 
-apt-get -y install nginx
+yum -y install epel-release
+
+yum -y install nginx
 
 sh -c 'echo "log_format timekeeper \$remote_addr - \$remote_user [\$time_local] " >> /etc/nginx/conf.d/timekeeper-log-format.conf'
 
@@ -164,49 +168,53 @@ sed -i "s/_time;/_time\';/" /etc/nginx/conf.d/timekeeper-log-format.conf
 
 sh -c 'echo "geoip_country /usr/share/GeoIP/GeoIP.dat;" >> /etc/nginx/conf\.d/geoip.conf'
 
-sed -i '/# Default server configuration/a \}' /etc/nginx/sites-available/default
+sed -i '/include \/etc\/nginx\/conf\.d\/\*\.conf;/a \}#tmp_id_5' /etc/nginx/nginx.conf
 
-sed -i '/# Default server configuration/a US yes;' /etc/nginx/sites-available/default
+sed -i '/include \/etc\/nginx\/conf\.d\/\*\.conf;/a US yes;' /etc/nginx/nginx.conf
 
-sed -i '/# Default server configuration/a default no;' /etc/nginx/sites-available/default
+sed -i '/include \/etc\/nginx\/conf\.d\/\*\.conf;/a default no;' /etc/nginx/nginx.conf
 
-sed -i '/# Default server configuration/a map \$geoip_country_code \$allowed_country \{' /etc/nginx/sites-available/default
+sed -i '/include \/etc\/nginx\/conf\.d\/\*\.conf;/a map \$geoip_country_code \$allowed_country \{' /etc/nginx/nginx.conf
 
-sed -i '/# Default server configuration/a \
+sed -i '/include \/etc\/nginx\/conf\.d\/\*\.conf;/a \
 
-' /etc/nginx/sites-available/default
+' /etc/nginx/nginx.conf
 
-sed -i 's/US yes;/        US yes;/' /etc/nginx/sites-available/default
+sed -i 's/\}#tmp_id_5/    \}#tmp_id_5/' /etc/nginx/nginx.conf
 
-sed -i 's/default no;/        default no;/' /etc/nginx/sites-available/default
+sed -i 's/US yes;/        US yes;/' /etc/nginx/nginx.conf
 
-sed -i '/listen \[::\]:80 default_server;/a \}#tmp_id_1' /etc/nginx/sites-available/default
+sed -i 's/default no;/        default no;/' /etc/nginx/nginx.conf
 
-sed -i '/listen \[::\]:80 default_server;/a return 444;' /etc/nginx/sites-available/default
+sed -i 's/map \$geoip_country_code \$allowed_country/    map \$geoip_country_code \$allowed_country/' /etc/nginx/nginx.conf
 
-sed -i '/listen \[::\]:80 default_server;/a if (\$allowed_country = no) \{' /etc/nginx/sites-available/default
+sed -i '/^        include \/etc\/nginx\/default\.d\/\*\.conf;/a \}#tmp_id_1' /etc/nginx/nginx.conf
 
-sed -i '/listen \[::\]:80 default_server;/a \
+sed -i '/^        include \/etc\/nginx\/default\.d\/\*\.conf;/a return 444;' /etc/nginx/nginx.conf
 
-' /etc/nginx/sites-available/default
+sed -i '/^        include \/etc\/nginx\/default\.d\/\*\.conf;/a if (\$allowed_country = no) \{' /etc/nginx/nginx.conf
 
-sed -i 's/\}#tmp_id_1/        \}/' /etc/nginx/sites-available/default
+sed -i '/^        include \/etc\/nginx\/default\.d\/\*\.conf;/a \
 
-sed -i 's/return 444;/                return 444;/' /etc/nginx/sites-available/default
+' /etc/nginx/nginx.conf
 
-sed -i 's/if (\$allowed_country = no)/        if (\$allowed_country = no)/' /etc/nginx/sites-available/default
+sed -i 's/\}#tmp_id_1/        \}#tmp_id_1/' /etc/nginx/nginx.conf
 
-sed -i '/listen \[::\]:80 default_server;/a access_log \/var\/log\/nginx\/server-block-1-access\.log timekeeper gzip;' /etc/nginx/sites-available/default
+sed -i 's/return 444;/            return 444;/' /etc/nginx/nginx.conf
 
-sed -i 's/access_log \/var\/log\/nginx\/server-block-1-access\.log timekeeper gzip;/        access_log \/var\/log\/nginx\/server-block-1-access\.log timekeeper gzip;/' /etc/nginx/sites-available/default
+sed -i 's/if (\$allowed_country = no)/        if (\$allowed_country = no)/' /etc/nginx/nginx.conf
 
-sed -i '/access_log \/var\/log\/nginx\/server-block-1-access\.log timekeeper gzip;/a error_log \/var\/log\/nginx\/server-block-1-error\.log;' /etc/nginx/sites-available/default
+sed -i '/^        include \/etc\/nginx\/default\.d\/\*\.conf;/a access_log \/var\/log\/nginx\/server-block-1-access\.log  timekeeper;' /etc/nginx/nginx.conf
 
-sed -i 's/error_log \/var\/log\/nginx\/server-block-1-error\.log;/        error_log \/var\/log\/nginx\/server-block-1-error\.log;/' /etc/nginx/sites-available/default
+sed -i 's/access_log \/var\/log\/nginx\/server-block-1-access\.log  timekeeper;/        access_log \/var\/log\/nginx\/server-block-1-access\.log  timekeeper;/' /etc/nginx/nginx.conf
 
-sed -i '/listen \[::\]:80 default_server;/a \
+sed -i '/access_log \/var\/log\/nginx\/server-block-1-access\.log  timekeeper;/a error_log \/var\/log\/nginx\/server-block-1-error\.log;' /etc/nginx/nginx.conf
 
-' /etc/nginx/sites-available/default
+sed -i 's/error_log \/var\/log\/nginx\/server-block-1-error\.log;/        error_log \/var\/log\/nginx\/server-block-1-error\.log;/' /etc/nginx/nginx.conf
+
+sed -i '/^        include \/etc\/nginx\/default\.d\/\*\.conf;/a \
+
+' /etc/nginx/nginx.conf
 
 # sed -i -e '/^#    server {/s/^.*$/    server {/' /etc/nginx/nginx.conf
 
@@ -314,13 +322,15 @@ sed -i '/listen \[::\]:80 default_server;/a \
 
 # sed -i -e '/^#    }/s/^.*$/    }/' /etc/nginx/nginx.conf
 
+sh -c "echo 'gzip on;' >> /etc/nginx/conf.d/gzip.conf"
+
+sh -c "echo 'gzip_disable \"msie6\";' >> /etc/nginx/conf.d/gzip.conf"
+
 sh -c "echo 'gzip_vary on;' >> /etc/nginx/conf.d/gzip.conf"
 
 sh -c "echo 'gzip_proxied any;' >> /etc/nginx/conf.d/gzip.conf"
 
 sh -c "echo 'gzip_comp_level 6;' >> /etc/nginx/conf.d/gzip.conf"
-
-sh -c "echo 'gzip_buffers 16 8k;' >> /etc/nginx/conf.d/gzip.conf"
 
 sh -c "echo 'gzip_http_version 1.1;' >> /etc/nginx/conf.d/gzip.conf"
 
@@ -340,7 +350,7 @@ firewall-cmd --reload
 
 systemctl enable nginx
 
-apt-get -y install fail2ban
+yum -y install fail2ban
 
 systemctl enable fail2ban
 

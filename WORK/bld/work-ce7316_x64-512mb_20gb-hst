@@ -34,6 +34,8 @@
 
 ssh-keygen -t rsa
 
+sh -c 'echo "<os_username>:<os_password>" >> .credentials'
+
 ssh root@<vps_ip_addr>
 
 # ::|\ ________ /|:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: #
@@ -65,6 +67,8 @@ exit
 # ::!/         \!::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: #
 
 scp .ssh/id_rsa.pub root@<vps_ip_addr>:/etc/ssh/<os_username>/authorized_keys
+
+scp .credentials root@<vps_ip_addr>:/home/<os_username>/
 
 ssh root@<vps_ip_addr>
 
@@ -389,3 +393,7 @@ sh -c 'echo "[nginx-http-auth]" >> /etc/fail2ban/jail.local'
 sh -c 'echo "enabled = true" >> /etc/fail2ban/jail.local'
 
 systemctl restart fail2ban
+
+cat /home/<os_username>/.credentials | chpasswd
+
+rm /home/<os_username>/.credentials
