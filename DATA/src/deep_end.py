@@ -28,13 +28,13 @@ def get_open():
         cursor.execute("""SELECT open FROM {}""".format(symbol))
         return json.dumps(cursor.fetchall(), indent=2)
     elif __from is None:
-        cursor.execute("""SELECT open FROM {} WHERE time >= '{}'""".format(symbol, __from))
-        return json.dumps(cursor.fetchall(), indent=2)
-    elif __to is None:
         cursor.execute("""SELECT open FROM {} WHERE time < '{}'""".format(symbol, __to))
         return json.dumps(cursor.fetchall(), indent=2)
+    elif __to is None:
+        cursor.execute("""SELECT open FROM {} WHERE time >= '{}'""".format(symbol, __from))
+        return json.dumps(cursor.fetchall(), indent=2)
     else:
-        cursor.execute("""SELECT open FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __to, __from))
+        cursor.execute("""SELECT open FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __from, __to))
         return json.dumps(cursor.fetchall(), indent=2)
 
 @deep.route('/market/high', methods=["GET"])
@@ -46,13 +46,13 @@ def get_high():
         cursor.execute("""SELECT high FROM {}""".format(symbol))
         return json.dumps(cursor.fetchall(), indent=2)
     elif __from is None:
-        cursor.execute("""SELECT high FROM {} WHERE time >= '{}'""".format(symbol, __from))
-        return json.dumps(cursor.fetchall(), indent=2)
-    elif __to is None:
         cursor.execute("""SELECT high FROM {} WHERE time < '{}'""".format(symbol, __to))
         return json.dumps(cursor.fetchall(), indent=2)
+    elif __to is None:
+        cursor.execute("""SELECT high FROM {} WHERE time >= '{}'""".format(symbol, __from))
+        return json.dumps(cursor.fetchall(), indent=2)
     else:
-        cursor.execute("""SELECT high FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __to, __from))
+        cursor.execute("""SELECT high FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __from, __to))
         return json.dumps(cursor.fetchall(), indent=2)
 
 @deep.route('/market/low', methods=["GET"])
@@ -64,13 +64,13 @@ def get_low():
         cursor.execute("""SELECT low FROM {}""".format(symbol))
         return json.dumps(cursor.fetchall(), indent=2)
     elif __from is None:
-        cursor.execute("""SELECT low FROM {} WHERE time >= '{}'""".format(symbol, __from))
-        return json.dumps(cursor.fetchall(), indent=2)
-    elif __to is None:
         cursor.execute("""SELECT low FROM {} WHERE time < '{}'""".format(symbol, __to))
         return json.dumps(cursor.fetchall(), indent=2)
+    elif __to is None:
+        cursor.execute("""SELECT low FROM {} WHERE time >= '{}'""".format(symbol, __from))
+        return json.dumps(cursor.fetchall(), indent=2)
     else:
-        cursor.execute("""SELECT low FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __to, __from))
+        cursor.execute("""SELECT low FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __from, __to))
         return json.dumps(cursor.fetchall(), indent=2)
 
 @deep.route('/market/close', methods=["GET"])
@@ -82,13 +82,13 @@ def get_close():
         cursor.execute("""SELECT close FROM {}""".format(symbol))
         return json.dumps(cursor.fetchall(), indent=2)
     elif __from is None:
-        cursor.execute("""SELECT close FROM {} WHERE time >= '{}'""".format(symbol, __from))
-        return json.dumps(cursor.fetchall(), indent=2)
-    elif __to is None:
         cursor.execute("""SELECT close FROM {} WHERE time < '{}'""".format(symbol, __to))
         return json.dumps(cursor.fetchall(), indent=2)
+    elif __to is None:
+        cursor.execute("""SELECT close FROM {} WHERE time >= '{}'""".format(symbol, __from))
+        return json.dumps(cursor.fetchall(), indent=2)
     else:
-        cursor.execute("""SELECT close FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __to, __from))
+        cursor.execute("""SELECT close FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __from, __to))
         return json.dumps(cursor.fetchall(), indent=2)
 
 @deep.route('/market/volume', methods=["GET"])
@@ -100,13 +100,13 @@ def get_volume():
         cursor.execute("""SELECT volume FROM {}""".format(symbol))
         return json.dumps(cursor.fetchall(), indent=2)
     elif __from is None:
-        cursor.execute("""SELECT volume FROM {} WHERE time >= '{}'""".format(symbol, __from))
-        return json.dumps(cursor.fetchall(), indent=2)
-    elif __to is None:
         cursor.execute("""SELECT volume FROM {} WHERE time < '{}'""".format(symbol, __to))
         return json.dumps(cursor.fetchall(), indent=2)
+    elif __to is None:
+        cursor.execute("""SELECT volume FROM {} WHERE time >= '{}'""".format(symbol, __from))
+        return json.dumps(cursor.fetchall(), indent=2)
     else:
-        cursor.execute("""SELECT volume FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __to, __from))
+        cursor.execute("""SELECT volume FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __from, __to))
         return json.dumps(cursor.fetchall(), indent=2)
 
 # Error handlers: HTTP status codes
