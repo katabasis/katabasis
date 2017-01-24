@@ -17,7 +17,7 @@ connection = psycopg2.connect('dbname=master')
 connection.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 cursor = connection.cursor(cursor_factory=RealDictCursor)
 
-# Routes
+# Routes: Read
 
 @deep.route('/market/open', methods=["GET"])
 def get_open():
@@ -109,7 +109,7 @@ def get_volume():
         cursor.execute("""SELECT volume FROM {} WHERE time >= '{}' AND time < '{}'""".format(symbol, __to, __from))
         return json.dumps(cursor.fetchall(), indent=2)
 
-# HTTP status codes
+# Error handlers: HTTP status codes
 
 @deep.errorhandler(100)
 def error_100(error):
@@ -355,7 +355,7 @@ def error_510(error):
 def error_511(error):
     return make_response(jsonify({'error': "HTTP status code: 511"}), 511)
 
-# HTTP status codes from Nginx
+# Error handlers: HTTP status codes from Nginx
 
 @deep.errorhandler(444)
 def error_444(error):
