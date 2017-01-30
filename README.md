@@ -4,10 +4,10 @@ Katabasis is licensed under the GNU General Public License, version 2.0.
 
 ---
 
-### Getting Started
-
 *"The network is the computer."*
 
 *- John Gage*
 
-Documentation coming soon.
+---
+
+Katabasis, version 0.1, will be released on March 15, 2017.
