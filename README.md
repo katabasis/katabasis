@@ -8,6 +8,6 @@ Katabasis is licensed under the GNU General Public License, version 2.0.
 
 *- John Gage*
 
----
+### Project Status
 
 Katabasis, version 0.1, will be released on March 15, 2017.
