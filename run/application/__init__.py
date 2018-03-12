@@ -4,9 +4,9 @@ import os
 
 from flask import Flask, jsonify, request
 
-from application.utilities.authorization import authorize
-from application.views.public            import controller as public
-from application.views.private           import controller as private
+from application.extensions.authorization import authorize
+from application.views.public             import controller as public
+from application.views.private            import controller as private
 
 
 controller = Flask(__name__)
