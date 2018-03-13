@@ -4,8 +4,8 @@ import os
 
 from flask import Flask, jsonify, request
 
-from application.models import omnibus as models
-from application.views  import omnibus as views
+from katabasis.models import omnibus as models
+from katabasis.views  import omnibus as views
 
 
 omnibus = Flask(__name__)
@@ -39,7 +39,9 @@ def unauthorized(error):
     return make_response(jsonify({'error': "HTTP status code: 401"}), 401)
 
 
-# @omnibus.errorhandler(402) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(402)
 # def payment_required(error):
 #     return make_response(jsonify({'error': "HTTP status code: 402"}), 402)
 
@@ -64,7 +66,9 @@ def not_acceptable(error):
     return make_response(jsonify({'error': "HTTP status code: 406"}), 406)
 
 
-# @omnibus.errorhandler(407) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(407)
 # def proxy_authentication_required(error):
 #     return make_response(jsonify({'error': "HTTP status code: 407"}), 407)
 
@@ -124,7 +128,9 @@ def im_a_teapot(error):
     return make_response(jsonify({'error': "HTTP status code: 418"}), 418)
 
 
-# @omnibus.errorhandler(421) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(421)
 # def misdirected_request(error):
 #     return make_response(jsonify({'error': "HTTP status code: 421"}), 421)
 
@@ -139,12 +145,16 @@ def locked(error):
     return make_response(jsonify({'error': "HTTP status code: 423"}), 423)
 
 
-# @omnibus.errorhandler(424) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(424)
 # def failed_dependency(error):
 #     return make_response(jsonify({'error': "HTTP status code: 424"}), 424)
 
 
-# @omnibus.errorhandler(426) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(426)
 # def upgrade_required(error):
 #     return make_response(jsonify({'error': "HTTP status code: 426"}), 426)
 
@@ -172,27 +182,37 @@ def unavailable_for_legal_reasons(error):
 #  Error handlers for HTTP responses in an expansion of the 4XX error-space
 
 
-# @omnibus.errorhandler(444) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(444)
 # def no_response(error):
 #     return make_response(jsonify({'error': "Unofficial HTTP status code from Nginx: 444"}), 444)
 
 
-# @omnibus.errorhandler(495) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(495)
 # def ssl_certificate_error(error):
 #     return make_response(jsonify({'error': "Unofficial HTTP status code from Nginx: 495"}), 495)
 
 
-# @omnibus.errorhandler(496) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(496)
 # def ssl_certificate_required(error):
 #     return make_response(jsonify({'error': "Unofficial HTTP status code from Nginx: 496"}), 496)
 
 
-# @omnibus.errorhandler(497) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(497)
 # def http_request_sent_to_https_port(error):
 #     return make_response(jsonify({'error': "Unofficial HTTP status code from Nginx: 497"}), 497)
 
 
-# @omnibus.errorhandler(499) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(499)
 # def client_closed_request(error):
 #     return make_response(jsonify({'error': "Unofficial HTTP status code from Nginx: 499"}), 499)
 
@@ -230,26 +250,36 @@ def http_version_not_supported(error):
     return make_response(jsonify({'error': "HTTP status code: 505"}), 505)
 
 
-# @omnibus.errorhandler(506) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(506)
 # def variant_also_negotiates(error):
 #     return make_response(jsonify({'error': "HTTP status code: 506"}), 506)
 
 
-# @omnibus.errorhandler(507) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(507)
 # def insufficient_storage(error):
 #     return make_response(jsonify({'error': "HTTP status code: 507"}), 507)
 
 
-# @omnibus.errorhandler(508) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(508)
 # def loop_detected(error):
 #     return make_response(jsonify({'error': "HTTP status code: 508"}), 508)
 
 
-# @omnibus.errorhandler(510) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(510)
 # def not_extended(error):
 #     return make_response(jsonify({'error': "HTTP status code: 510"}), 510)
 
 
-# @omnibus.errorhandler(511) # FIXME - <broken_error_handler_issue> - The built-in server won't run if this isn't commented out.
+# FIXME Fix the following error handler
+#
+# @omnibus.errorhandler(511)
 # def network_authentication_required(error):
 #     return make_response(jsonify({'error': "HTTP status code: 511"}), 511)
