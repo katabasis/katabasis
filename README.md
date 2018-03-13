@@ -11,6 +11,8 @@ this repository's `development` branch when it's ready.
 
 ---
 
-Take note: `hst_D_ce7316x64_memo512MB_proc1VC_band1000GB_disk20GB.sh`
-and `hst_D_ub1604x64_memo512MB_proc1VC_band1TB_disk20GB.sh` were written
-before DigitalOcean doubled the memory allocation to their lowest tier.
+# Patterns
+
+## Machine tags are incorporated into pathnames throughout the datastore
+
+/%path%/%namespace%-%predicate%-%value%-%timestamp%.%filename_extension%
