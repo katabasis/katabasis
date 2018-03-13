@@ -7,6 +7,10 @@ from flask import Flask, jsonify, request
 from katabasis.models import omnibus as models
 from katabasis.views  import omnibus as views
 
+UPLOAD_ = 'katabasis/'
+UPLOAD_ = 'katabasis/'
+
+
 
 omnibus = Flask(__name__)
 omnibus.register_blueprint(models)
