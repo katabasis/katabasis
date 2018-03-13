@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from application import controller
+from application import omnibus
 
 # TODO Replace the invocation an industrial strength application server
 #
@@ -8,4 +8,4 @@ from application import controller
 # expediting the development process of this application. They are not
 # suitable for production and should be changed before deployment.
 #
-controller.run(host='127.0.0.1', port=5000, debug=True)
+omnibus.run(host='127.0.0.1', port=5000, debug=True)
