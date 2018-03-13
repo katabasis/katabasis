@@ -7,14 +7,19 @@ from flask import Flask, jsonify, request
 from katabasis.models import omnibus as models
 from katabasis.views  import omnibus as views
 
-UPLOAD_ = 'katabasis/'
-UPLOAD_ = 'katabasis/'
 
-
+STRATEGIES_PATHNAME =
+PIPELINES_PATHNAME  = 
 
 omnibus = Flask(__name__)
+
 omnibus.register_blueprint(models)
 omnibus.register_blueprint(views)
+
+omnibus.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
+omnibus.config[''] = 
+omnibus.config[''] = 
+omnibus.config[''] = 
 
 
 def keymaker(omnibus, filename='secret_key'):
